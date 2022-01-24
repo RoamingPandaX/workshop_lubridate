@@ -7,47 +7,35 @@ output:
     code_folding: "show"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
-```
-
 ```{r Load Libraries}
 library(tidyverse)
 library(nycflights13) 
 library(lubridate)
 ```
 
-We will explore the "lubridate" package of the tidyverse.  In this tutorial we will do the following things:
+We will explore the "lubridate" package of the tidyverse. In this tutorial we will do the following things:
 
-1) Creating date & datetime objects
-2) Isolating components of the datetime
-3) Time spans (durations, periods, intervals)
+1)  Creating date & datetime objects
+2)  Isolating components of the datetime
+3)  Time spans (durations, periods, intervals)
 
-Please note that some of the code in this tutorial was adapted from Chapter 16 of the book "R for Data Science" by Hadley Wickham and Garrett Grolemund.  The full book can be found at: https://r4ds.had.co.nz/#
+### Creating datetime objects
 
-A good cheat sheet for lubridate functions can be found at: https://rstudio.com/resources/cheatsheets/ 
-
-A vignette for lubridate can be found here: https://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html 
-And the following is a good reference: https://lubridate.tidyverse.org/reference/lubridate-package.html 
-
-### Creating datetime objects ###
-
-Two key functions to be aware of are `today()` and `now()`.   Observe the results:
+Two key functions to be aware of are `today()` and `now()`. Observe the results:
 
 ```{r Today function}
 day <- today()
 str(day)
 ```
 
-The `today()` function returns the current date, and it is an object of class "Date".   
+The `today()` function returns the current date, and it is an object of class "Date".
 
 ```{r Now function}
 datetime <- now()
 str(datetime)
 ```
 
-The `now()` function requires the current datetime.  This is an object of class "POSIXct".
-"POSIXct" is the most common class in R for datetimes.   These store the number of seconds since an origin point of "1970-01-01 00:00:00 UTC", whereas the "Date" class stores the number of days since "1970-01-01".
+The `now()` function requires the current datetime. This is an object of class "POSIXct". "POSIXct" is the most common class in R for datetimes. These store the number of seconds since an origin point of "1970-01-01 00:00:00 UTC", whereas the "Date" class stores the number of days since "1970-01-01".
 
 Now, let's suppose these were stored as strings.
 
@@ -58,7 +46,7 @@ str(string1)
 str(string2)
 ```
 
-These are automatically stored as strings.  Compare the following approaches now though:
+These are automatically stored as strings. Compare the following approaches now though:
 
 ```{r Converting strings to dates and datetimes}
 date1 <- as.Date(string1)
@@ -71,9 +59,9 @@ str(datetime1)
 str(datetime2)
 ```
 
-The functions `as.Date()` and `as.POSIXct()` come from base R.  However, the `as_date()` and `as_datetime()` functions come from "lubridate".  However, `as_datetime()` is a little easier to write and remember than `as.POSIXct()`! 
+The functions `as.Date()` and `as.POSIXct()` come from base R. However, the `as_date()` and `as_datetime()` functions come from "lubridate". However, `as_datetime()` is a little easier to write and remember than `as.POSIXct()`!
 
-Now suppose you have dates in some different formats.  lubridate comes with helper functions like `ymd()`, `mdy()`, `dmy()` with extensions such as `ymd_h()`, `ymd_hm()`, and `ymd_hms()`, for the "year", "minute", "day", "hour", "minute", and "second" components.
+Now suppose you have dates in some different formats. lubridate comes with helper functions like `ymd()`, `mdy()`, `dmy()` with extensions such as `ymd_h()`, `ymd_hm()`, and `ymd_hms()`, for the "year", "minute", "day", "hour", "minute", and "second" components.
 
 ```{r Helper functions}
 dateFormat1 <- "20200922"
@@ -90,9 +78,9 @@ ymd_hms(dateFormat5)
 
 <br>
 
-### Isolating components of the datetime ###
+### Isolating components of the datetime
 
-Let's look at today's date.   There are number of functions such as `year()`, `month()`, `mday()` (day of the month), `hour()`, `minute()`, `second()`, as well as helper functions like `yday()` and `wday()`.
+Let's look at today's date. There are number of functions such as `year()`, `month()`, `mday()` (day of the month), `hour()`, `minute()`, `second()`, as well as helper functions like `yday()` and `wday()`.
 
 ```{r Component functions}
 todayDate <- "2020-09-22 17:15:00"
@@ -106,7 +94,7 @@ yday(todayDate)
 wday(todayDate)
 ```
 
-With the functions `month()` and `wday()`, you can specify the argument `label = TRUE`.   Observe:
+With the functions `month()` and `wday()`, you can specify the argument `label = TRUE`. Observe:
 
 ```{r Component functions with labels}
 month(todayDate, label = TRUE)
@@ -144,13 +132,13 @@ data %>%
 
 <br>
 
-### Time spans (durations, periods, intervals) ###
+### Time spans (durations, periods, intervals)
 
 The definition of these three classes are as follows:
 
-* Durations measure the exact number of seconds that occur between two instants.
-* Periods measure the change in clock time that occurs between two instants.
-* Intervals are timespans representing a start and an end point.
+-   Durations measure the exact number of seconds that occur between two instants.
+-   Periods measure the change in clock time that occurs between two instants.
+-   Intervals are timespans representing a start and an end point.
 
 Let's see the difference within the month March 2020.
 
@@ -167,8 +155,8 @@ as.period(difftime)
 as.interval(startDate, endDate)
 ```
 
-Durations make it easy to add durations of time to existing datetimes.   They come with a variety of helper functions such as `dseconds()`, `dminutes()`, `dhours()`, `ddays()`, `dweeks()`, `dmonths()`, and `dyears()`.  
-Periods are similar and come with similar helper functions: `seconds()`, `minutes()`, `hours()`, `days()`, `months()`, `weeks()`, and `years()`.  Here are examples that will return the same result:
+Durations make it easy to add durations of time to existing datetimes. They come with a variety of helper functions such as `dseconds()`, `dminutes()`, `dhours()`, `ddays()`, `dweeks()`, `dmonths()`, and `dyears()`.\
+Periods are similar and come with similar helper functions: `seconds()`, `minutes()`, `hours()`, `days()`, `months()`, `weeks()`, and `years()`. Here are examples that will return the same result:
 
 ```{r Duration and period examples}
 startDate + dhours(5)
@@ -183,6 +171,6 @@ stTime + ddays(1)
 stTime + days(1)
 ```
 
-Note that R is very sensitive to Daylight Savings Time.  The duration function `ddays()` added the number of seconds in a typical day to the original date.  However, March 7, 2020 only had 23 hours due to the presence of Daylight Savings Time.   The difference with the period function `days()` is that it added the natural human day -- which, when we think of a day, will be the same hour of the following day despite Daylight Savings Time.
+Note that R is very sensitive to Daylight Savings Time. The duration function `ddays()` added the number of seconds in a typical day to the original date. However, March 7, 2020 only had 23 hours due to the presence of Daylight Savings Time. The difference with the period function `days()` is that it added the natural human day -- which, when we think of a day, will be the same hour of the following day despite Daylight Savings Time.
 
-Intervals also come with a variety of helper functions like `int_start()`, `int_end()`, `int_flip()`, `int_shift()`, `int_overlaps()`, `int_standardize()`, `int_aligns()`, and `int_diff()`.  These can be accessed through the help documentation and are fairly intuitive.
+Intervals also come with a variety of helper functions like `int_start()`, `int_end()`, `int_flip()`, `int_shift()`, `int_overlaps()`, `int_standardize()`, `int_aligns()`, and `int_diff()`. These can be accessed through the help documentation and are fairly intuitive.
